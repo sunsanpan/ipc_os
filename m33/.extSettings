@@ -1,0 +1,9 @@
+; CubeMX user extension file (UM1718 appendix) — applied on EVERY code generation.
+; CubeMX for STM32MP25 does not treat the IPCC HAL as part of the OpenAMP
+; middleware, so it prunes stm32mp2xx_hal_ipcc.c/.h from Drivers/ and comments
+; HAL_IPCC_MODULE_ENABLED in stm32mp2xx_hal_conf.h on each regen. Persistent
+; copies of the driver live in CM33/Core/Src|Inc (CubeMX never touches user
+; files there); the module-enable macro is injected here and in the .cproject
+; build defines instead of relying on the regenerated hal_conf.h.
+[Others]
+Define=HAL_IPCC_MODULE_ENABLED

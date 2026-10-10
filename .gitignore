@@ -1,0 +1,13 @@
+# CubeIDE build output / local state
+m33/CM33/Debug/
+m33/CM33/Release/
+m33/.metadata/
+*.o
+*.d
+*.su
+*.map
+*.list
+*.launch
+# A35 build
+a35/rpmsg_sensor_rx
+a35/selftest

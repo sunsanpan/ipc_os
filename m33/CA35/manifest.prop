@@ -1,0 +1,5 @@
+MANIFEST_VERSION = openstlinux-6.6-yocto-scarthgap-mpu-v26.02.18
+KERNEL_DT = ./DeviceTree/ipc_m33/kernel
+OPTEE_DT = ./DeviceTree/ipc_m33/optee-os
+UBOOT_DT = ./DeviceTree/ipc_m33/u-boot
+TFA_DT = ./DeviceTree/ipc_m33/tf-a

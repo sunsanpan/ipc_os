@@ -1,0 +1,13 @@
+# Build output
+Debug/
+Release/
+*.o
+*.d
+*.su
+*.map
+*.list
+
+# Eclipse/CubeIDE local state
+.metadata/
+RemoteSystemsTempFiles/
+*.launch
