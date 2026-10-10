@@ -119,8 +119,10 @@ void SensorApp_Init(I2C_HandleTypeDef *hi2c)
         Error_Handler();
     VIRT_UART_RegisterCallback(&huart0, VIRT_UART_RXCPLT_CB_ID, rx_cb);
 
-    printf("M33: bmp280 %s\r\n", bmp280_init(&bmp, hi2c) ? "ok" : "NOT FOUND");
-    printf("M33: gy271 %s (type %u)\r\n", gy271_init(&mag, hi2c) ? "ok" : "NOT FOUND", mag.type);
+    /* A missing sensor is reported, never fatal: the loop keeps pushing
+     * frames with the ok-flag clear and re-probes every SENSOR_APP_REPROBE_MS. */
+    printf("M33: BMP280 %s\r\n", bmp280_init(&bmp, hi2c) ? "ok" : "not connected");
+    printf("M33: GY-271 %s (type %u)\r\n", gy271_init(&mag, hi2c) ? "ok" : "not connected", mag.type);
 
     next_sample  = HAL_GetTick() + SENSOR_APP_PERIOD_MS;
     next_reprobe = HAL_GetTick() + SENSOR_APP_REPROBE_MS;

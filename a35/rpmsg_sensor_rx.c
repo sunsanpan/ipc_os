@@ -77,7 +77,7 @@ static void print_frame(uint8_t type, const uint8_t *p, uint8_t len)
     if (flags & IPC_FLAG_BMP_OK)
         printf("BMP280 T=%6.2f C  P=%8.2f hPa | ", tcc / 100.0, pa / 100.0);
     else
-        printf("BMP280 --- | ");
+        printf("BMP280 not connected | ");
 
     if (flags & IPC_FLAG_MAG_OK)
     {
@@ -88,7 +88,7 @@ static void print_frame(uint8_t type, const uint8_t *p, uint8_t len)
                x / lsb_per_g, y / lsb_per_g, z / lsb_per_g);
     }
     else
-        printf("MAG ---\n");
+        printf("GY-271 not connected\n");
     fflush(stdout);
 }
 #endif

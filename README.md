@@ -27,6 +27,7 @@ with the cFS app replaced by a standalone receiver.
 | `protocol.h` | Wire format, shared by both cores (single copy) |
 | `m33/` | STM32CubeIDE project (`ipc_m33`). App code in `CM33/Core/Src/{sensor_app,bmp280,gy271}.c` |
 | `a35/rpmsg_sensor_rx.c` | Linux receiver, `a35/Makefile`, `a35/start_m33.sh` |
+| `prebuilt/` | Built M33 ELF (unsigned) + sha256 |
 
 ## Wiring (STM32MP257F-DK, CN5)
 
@@ -54,6 +55,15 @@ OP-TEE profile does this; see the reference repo's `docs/M33_RIF_BUILD_GUIDE.md`
 
 **M33:** import `m33/` into STM32CubeIDE (File → Import → Existing Projects),
 build the `ipc_m33_CM33` Debug configuration → `m33/CM33/Debug/ipc_m33_CM33.elf`.
+Or headless, from a shell (CubeIDE 1.19.0, GCC 13.3.1 — Windows paths shown):
+
+```powershell
+& "C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\stm32cubeidec.exe" --launcher.suppressErrors -nosplash `
+  -application org.eclipse.cdt.managedbuilder.core.headlessbuild -data C:\tmp\ws `
+  -import D:\path\to\ipc_os\m33 -import D:\path\to\ipc_os\m33\CM33 -build ipc_m33_CM33/Debug
+```
+
+A ready-made build is in `prebuilt/ipc_m33_CM33.elf` (check with `sha256sum -c`).
 Sign it for the OP-TEE remoteproc TA (mandatory on the ca35tdcid image):
 
 ```bash
@@ -87,5 +97,7 @@ M33 ACK cmd=0x10 status=0
 M33 boot log (sensor probe results, faults):
 `cat /sys/kernel/debug/remoteproc/remoteproc1/trace0`.
 
-A sensor that fails its probe shows as `---` and is re-probed every 5 s.
+A sensor that is absent or stops answering is reported as `not connected`
+on both consoles (A35 output above, M33 `trace0`) and re-probed every 5 s;
+the firmware and the receiver keep running.
 Sample period: `SENSOR_APP_PERIOD_MS` in `m33/CM33/Core/Inc/sensor_app.h`.
